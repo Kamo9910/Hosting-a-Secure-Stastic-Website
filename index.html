@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Hosting a Secure Stastic Website</title>
+</head>
+<body>
+        <div class="centered-text">
+
+        <h1>Hosting a Secure Stastic Website</h1>
+        
+        <img class="myImage" src="s3_diagram_cloudfront_acm_route53_c2a411d6a4.png" alt="Hosting a Secure Stastic Website" style="transition: transform 0.3s ease;" height="50%" width="50%">
+        
+        <h2>Project Overview:</h2>
+        <p>The project demonstrates how to host a secure, performant, and scalable static site with custom domain support and HTTPS encryption. It’s designed to showcase best practices in cloud-native architecture, DNS management, and content delivery.</p>
+        <h3>Architecture Summary:</h3>
+        <p>- Amazon S3: Stores the static website assets (HTML, CSS, JS) with public read access and website hosting enabled. <br>
+           - Amazon CloudFront: Distributes content globally with low latency and high transfer speeds. Configured to serve from the S3 origin and enforce HTTPS. <br>
+           - AWS Certificate Manager (ACM): Provides a free SSL/TLS certificate for HTTPS support on the custom domain. <br>
+           - Amazon Route 53: Manages DNS records for the custom domain, including A/AAAA records pointing to CloudFront and validation records for ACM.</p> 
+        
+        <h3>Steps taken to complets this project :</h3>
+            <h4>1. Create and Configure S3 bucket</h4>
+            <br>
+            <img class="myImage" src="Screenshot (10).png" alt="Amazon S3" style="transition: transform 0.3s ease;" height="50%" width="50%">
+             <br>
+            <img class="myImage" src="Screenshot (12).png" alt="Amazon S3" style="transition: transform 0.3s ease;" height="50%" width="50%">
+            <br>
+            <p>- Go to Amazon S3 → Create a bucket. <br>
+               - Name it exactly as your bucket. <br>
+               - Disable Block all public access. <br>
+               - Enable Static website hosting → Set index.html as the entry point. <br>
+               - Upload your site files. <br>
+               - Add a Bucket Policy to allow public read access:</p>
+            <br>
+            <h4>2. Request SSL Certifacte (ACM) </h4>
+            <br>
+            <img class="myImage" src="Screenshot (5).png" alt="SSL Certifacte (ACM)" style="transition: transform 0.3s ease;" height="50%" width="50%">
+            <br>
+            <img class="myImage" src="Screenshot (3).png" alt="SSL Certifacte (ACM)" style="transition: transform 0.3s ease;" height="50%" width="50%">
+            <br>
+            <p>- Go to AWS Certificate Manager → Request a public certificate. <br>
+               - Enter your domain (ntshalaempire.com). <br>
+               - Choose DNS validation. <br>
+               - ACM provides CNAME records—copy these.</p>
+            <br>
+            <h4>3. Configure DNS In Route 53</h4>
+            <br>
+            <img class="myImage" src="Screenshot (1).png" alt="Amazon Route 53" style="transition: transform 0.3s ease;" height="50%" width="50%">
+            <br>
+            <img class="myImage" src="Screenshot (2).png" alt="Amazon Route 53" style="transition: transform 0.3s ease;" height="50%" width="50%">
+            <br>
+            <p>- Go to Route 53 → Hosted Zones → Select your domain. <br>
+               - Add the CNAME records from ACM to validate your certificate. <br>
+               - Create an A record (alias) pointing to your CloudFront distribution (next step).</p>
+            <br>
+            <h4>4. Create Cloudfront Distribution</h4>
+            <br>
+            <img class="myImage" src="Screenshot (8).png" alt="Amazon CloudFront" style="transition: transform 0.3s ease;" height="50%" width="50%">
+            <br>
+            <img class="myImage" src="Screenshot (11).png" alt="Amazon CloudFront" style="transition: transform 0.3s ease;" height="50%" width="50%">
+            <br>
+            <p>- Go to CloudFront → Create distribution. <br>
+               - Origin domain: your S3 bucket website endpoint. <br>
+               - Viewer protocol policy: Redirect HTTP to HTTPS. <br>
+               - Alternate domain names (CNAMEs): ntshalaempire.com
+               - Attach the ACM certificate. <br>
+               - Set default root object: index.html.</p>
+            <br>
+            <h4>5. Connect CloudFront to Route 53</h4>
+            <br>
+            <img class="myImage" src="Screenshot (6).png" alt="Amazon CloudFront" style="transition: transform 0.3s ease;" height="50%" width="50%">
+            <br>
+            <p>- In Route 53, create an A record (alias) pointing to your CloudFront distribution. <br>
+               - This enables your custom domain to serve content via CloudFront.</p>
+            <h4>6. Final Validation</h4>
+            <br>
+            <img class="myImage" src="Screenshot (9).png" alt="Amazon CloudFront" style="transition: transform 0.3s ease;" height="50%" width="50%">
+            <br>
+            <p>Visit https://ntshalaempire.com and confirm: <br>
+               - Site loads over HTTPS <br>
+               - Content is fast and globally distributed <br>
+               - DNS routing works correctly</p>
+               <button class="bt"><a class="fk" href="https://ntshalaempire.com">ntshalaempire.com</a></button>
+            </div>
+
+        <script src="javascript.js" charset="utf-8" ></script>
+
+</body>
+</html>
